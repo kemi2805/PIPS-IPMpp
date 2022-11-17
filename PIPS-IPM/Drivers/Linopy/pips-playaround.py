@@ -35,4 +35,4 @@ m.solve()
 #    sys.stdout = f # Change the standard output to the file we created.
 #    print(m.solution.variables)
 #    sys.stdout = original_stdout # Reset the standard output to its original value
-#result = subprocess.run(["/home/ken/Desktop/Linopy_PIPS/PIPS-IPMpp/build/pipsipmLinopyCallback", "Lückenfüller", str(N), Filepath])
+#result = subprocess.run(["/home/ken/Desktop/Linopy_PIPS/PIPS-IPMpp/build/pipsipmLinopyCallback", str(N), Filepath])
