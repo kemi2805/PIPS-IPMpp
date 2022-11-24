@@ -464,11 +464,10 @@ void Linopy::Transform_Matrix_Cols_B(std::vector<long long>::iterator Col_begin,
 std::unique_ptr<std::vector<long long>> Linopy::Transform_Matrix_Rows(std::unique_ptr<std::vector<long long>> M_Row) {
     std::vector<long long> Temp_Data;
     long long temp = 0;
-    Temp_Data.push_back(temp);
     if(M_Row->empty()) {
-        Temp_Data.push_back(0);
         return std::move(std::make_unique<std::vector<long long>>(Temp_Data));
     }
+    Temp_Data.push_back(temp);
     for(std::vector<long long>::iterator it = M_Row->begin() + 1; it != M_Row->end(); it++) {
         if(*(it-1) != *it) {
             temp++;
@@ -491,15 +490,17 @@ void Linopy::Check_Matrix_if_empty() {
             A_row->clear();
             A_data->clear();
             A_col->clear();
+            break;
         }
     }
-        for(auto it = B_data->begin(); it != B_data->end(); it++) {
+    for(auto it = B_data->begin(); it != B_data->end(); it++) {
         if(*it != 0.0) 
             break;
         else if(it+1 == B_data->end()) {
             B_row->clear();
             B_data->clear();
             B_col->clear();
+            break;
         }
     }
     for(auto it = BL_data->begin(); it != BL_data->end(); it++) {
@@ -509,6 +510,7 @@ void Linopy::Check_Matrix_if_empty() {
             BL_row->clear();
             BL_data->clear();
             BL_col->clear();
+            break;
         }
     }
     for(auto it = C_data->begin(); it != C_data->end(); it++) {
@@ -518,6 +520,7 @@ void Linopy::Check_Matrix_if_empty() {
             C_row->clear();
             C_data->clear();
             C_col->clear();
+            break;
         }
     }
     for(auto it = D_data->begin(); it != D_data->end(); it++) {
@@ -527,6 +530,7 @@ void Linopy::Check_Matrix_if_empty() {
             D_row->clear();
             D_data->clear();
             D_col->clear();
+            break;
         }
     }
     for(auto it = DL_data->begin(); it != DL_data->end(); it++) {
@@ -536,19 +540,12 @@ void Linopy::Check_Matrix_if_empty() {
             DL_row->clear();
             DL_data->clear();
             DL_col->clear();
+            break;
         }
     }
 }
 
-void Linopy::Check_Matrix(std::unique_ptr<std::vector<long long>> Row, std::unique_ptr<std::vector<long long>> Col, std::unique_ptr<std::vector<double>> Data) {
-    for(auto it = Data->begin(); it != Data->end(); it++) {
-        if(*it!=0.0) 
-            break;
-        else if(it+1 == Data->end()) {
-            
-        }
-    }
-}
+
 
 
 
