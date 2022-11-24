@@ -455,7 +455,7 @@ int main(int argc, char** argv) {
 
     auto primalSolVec = pipsIpm.gatherPrimalSolution();
     std::string Path_to_Solution = Filepath;
-    Path_to_Solution += "_Solution_File.txt";
+    Path_to_Solution += "_Solution_File.sol";
     std::ofstream Solution;
     Solution.open(Path_to_Solution);
     for(long unsigned int i = 0; i < primalSolVec.size();i++) {
