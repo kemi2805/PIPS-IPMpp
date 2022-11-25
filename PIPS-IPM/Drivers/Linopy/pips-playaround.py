@@ -5,7 +5,7 @@ Created on Thu Nov 11 21:56:23 2021
 
 @author: fabian
 """
-
+#Example for how you could use PIPS with Linopy
 from linopy import Model
 import numpy as np
 import pandas as pd
@@ -19,7 +19,7 @@ import logging
 
 logging.basicConfig(level=logging.INFO)
 
-n = pypsa.examples.ac_dc_meshed()
+n = pypsa.examples.ac_dc_meshed() #ac_dc_meshed(); storage_hvdc(); scigrid_de() for examples
 m = n.optimize.create_model()
 
 N = 10
@@ -30,9 +30,12 @@ Filepath = '/tmp/pypsa-model'
 m.to_block_files(Filepath)
 
 m.solve()
-#original_stdout = sys.stdout
-#with open('/home/ken/Desktop/pypsa_with_PIPS/pypsa-model/Python_Solution.txt', 'w') as f:
-#    sys.stdout = f # Change the standard output to the file we created.
-#    print(m.solution.variables)
-#    sys.stdout = original_stdout # Reset the standard output to its original value
-#result = subprocess.run(["/home/ken/Desktop/Linopy_PIPS/PIPS-IPMpp/build/pipsipmLinopyCallback", str(N), Filepath])
+original_stdout = sys.stdout
+
+result = subprocess.run(["/home/ken/Desktop/Linopy_PIPS/PIPS-IPMpp/build/pipsipmLinopyCallback", str(N), Filepath])
+
+Filepath = '/tmp/pypsa-model/Python_Solution.txt'
+with open(Filepath, 'w') as f:
+    sys.stdout = f 
+    print(m.solution.variables)
+    sys.stdout = original_stdout 
