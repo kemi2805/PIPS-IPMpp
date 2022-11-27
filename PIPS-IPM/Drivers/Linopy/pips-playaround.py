@@ -23,6 +23,7 @@ n = pypsa.examples.ac_dc_meshed() #ac_dc_meshed(); storage_hvdc(); scigrid_de() 
 m = n.optimize.create_model()
 
 N = 10
+number_of_cores = 4
 blocks = np.repeat(np.arange(1, N + 1), len(n.snapshots) / N)
 m.blocks = xr.DataArray(blocks, [n.snapshots])
 
@@ -32,7 +33,7 @@ m.to_block_files(Filepath)
 m.solve()
 original_stdout = sys.stdout
 
-result = subprocess.run(["/home/ken/Desktop/Linopy_PIPS/PIPS-IPMpp/build/pipsipmLinopyCallback", str(N), Filepath])
+result = subprocess.run(["mpirun", "-np", number_of_cores, "/home/ken/Desktop/Linopy_PIPS/PIPS-IPMpp/build/pipsipmLinopyCallback", str(N), Filepath])
 
 Filepath = '/tmp/pypsa-model/Python_Solution.txt'
 with open(Filepath, 'w') as f:
