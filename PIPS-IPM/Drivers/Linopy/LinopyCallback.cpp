@@ -448,14 +448,18 @@ int main(int argc, char** argv) {
     pipsIpm.run();
 
     const double objective = pipsIpm.getObjective();
-    if (rank == 0)
+    auto primalSolVec = pipsIpm.gatherPrimalSolution();
+    auto dualSolEqVec = pipsIpm.gatherDualSolutionEq();
+    auto dualSolIneqVec = pipsIpm.gatherDualSolutionIneq();
+    auto dualSolVarBounds = pipsIpm.gatherDualSolutionVarBounds();
+    if (rank == 0) {
         std::cout << "solving finished ... objective value: " << objective << "\n";
 
     
 
-    auto primalSolVec = pipsIpm.gatherPrimalSolution();
     std::string Path_to_Solution = Filepath;
-    Path_to_Solution += "_Solution_File.sol";
+    Path_to_Solution += "/PrimalSolution_File.sol";
+    std::cout << "PrimalSolution = " << Path_to_Solution << std::endl;
     std::ofstream Solution;
     Solution.open(Path_to_Solution);
     for(long unsigned int i = 0; i < primalSolVec.size();i++) {
@@ -463,6 +467,33 @@ int main(int argc, char** argv) {
     }
     Solution.close();
 
+    Path_to_Solution = Filepath;
+    Path_to_Solution += "/DualSolutionEq_File.sol";
+    std::cout << "DualSolution = " << Path_to_Solution << std::endl;
+    Solution.open(Path_to_Solution);
+    for(long unsigned int i = 0; i < dualSolEqVec.size();i++) {
+         Solution << dualSolEqVec[i] << "\n";
+    }
+    Solution.close();
+
+    Path_to_Solution = Filepath;
+    Path_to_Solution += "/DualSolutionIneq_File.sol";
+    std::cout << "DualSolution = " << Path_to_Solution << std::endl;
+    Solution.open(Path_to_Solution);
+    for(long unsigned int i = 0; i < dualSolIneqVec.size();i++) {
+         Solution << dualSolIneqVec[i] << "\n";
+    }
+    Solution.close();
+
+    Path_to_Solution = Filepath;
+    Path_to_Solution += "/DualSolutionVarBounds.sol";
+    std::cout << "DualVarSolution = " << Path_to_Solution << std::endl;
+    Solution.open(Path_to_Solution);
+    for(long unsigned int i = 0; i < dualSolVarBounds.size();i++) {
+         Solution << dualSolVarBounds[i] << "\n";
+    }
+    Solution.close();
+    }
     delete root;
 
     MPI_Finalize();

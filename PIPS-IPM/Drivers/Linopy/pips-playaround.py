@@ -33,9 +33,9 @@ m.to_block_files(Filepath)
 m.solve()
 original_stdout = sys.stdout
 
-result = subprocess.run(["mpirun", "-np", number_of_cores, "/home/ken/Desktop/Linopy_PIPS/PIPS-IPMpp/build/pipsipmLinopyCallback", str(N), Filepath])
+result = subprocess.run(["mpirun", "-np", str(number_of_cores), "/home/ken/Desktop//PIPS-Git/PIPS-IPMpp/build/pipsipmLinopyCallback", str(N), Filepath])
 
-Filepath = '/tmp/pypsa-model/Python_Solution.txt'
+Filepath = '/tmp/pypsa-model/Python_Solution.sol'
 with open(Filepath, 'w') as f:
     sys.stdout = f 
     print(m.solution.variables)
