@@ -459,7 +459,6 @@ int main(int argc, char** argv) {
 
     std::string Path_to_Solution = Filepath;
     Path_to_Solution += "/PrimalSolution_File.sol";
-    std::cout << "PrimalSolution = " << Path_to_Solution << std::endl;
     std::ofstream Solution;
     Solution.open(Path_to_Solution);
     for(long unsigned int i = 0; i < primalSolVec.size();i++) {
@@ -469,7 +468,6 @@ int main(int argc, char** argv) {
 
     Path_to_Solution = Filepath;
     Path_to_Solution += "/DualSolutionEq_File.sol";
-    std::cout << "DualSolution = " << Path_to_Solution << std::endl;
     Solution.open(Path_to_Solution);
     for(long unsigned int i = 0; i < dualSolEqVec.size();i++) {
          Solution << dualSolEqVec[i] << "\n";
@@ -478,7 +476,6 @@ int main(int argc, char** argv) {
 
     Path_to_Solution = Filepath;
     Path_to_Solution += "/DualSolutionIneq_File.sol";
-    std::cout << "DualSolution = " << Path_to_Solution << std::endl;
     Solution.open(Path_to_Solution);
     for(long unsigned int i = 0; i < dualSolIneqVec.size();i++) {
          Solution << dualSolIneqVec[i] << "\n";
@@ -487,7 +484,6 @@ int main(int argc, char** argv) {
 
     Path_to_Solution = Filepath;
     Path_to_Solution += "/DualSolutionVarBounds.sol";
-    std::cout << "DualVarSolution = " << Path_to_Solution << std::endl;
     Solution.open(Path_to_Solution);
     for(long unsigned int i = 0; i < dualSolVarBounds.size();i++) {
          Solution << dualSolVarBounds[i] << "\n";
