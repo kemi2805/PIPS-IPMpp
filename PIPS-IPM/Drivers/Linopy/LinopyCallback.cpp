@@ -288,15 +288,13 @@ int main(int argc, char** argv) {
     std::string nScenariostring = argv[1];
     int nScenarios = stoi(nScenariostring); //Argument aus der Main-Funktion
     std::string Filepath = argv[2];
-    std::cout << "nScenario = " << nScenarios << std::endl;
-    std::cout << "Filepath = " << Filepath << std::endl;
+
 
 
     // Hier werden alle Blöcke abgelesen und in Linopy_Storage mit der Klasse Linopy gespeichert und bearbeitet
     std::vector<Linopy> Linopy_Storage;
     for(int i = 0; i <= nScenarios; i++) {
         Linopy_Storage.push_back(Linopy(Filepath, i, nScenarios));
-        std::cout << "Linopy_Storage " << i << " wurde kreirt" << std::endl;
     }
 
     for(int i = 0; i <= nScenarios; i++) {
