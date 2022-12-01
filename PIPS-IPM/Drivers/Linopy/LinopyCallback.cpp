@@ -289,18 +289,21 @@ int main(int argc, char** argv) {
     int nScenarios = stoi(nScenariostring); //Argument aus der Main-Funktion
     std::string Filepath = argv[2];
 
-
-
+    ProbData probData(nScenarios);
+    MPI_Init(&argc, &argv);
+    int rank;
+    int size;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
     // Hier werden alle Blöcke abgelesen und in Linopy_Storage mit der Klasse Linopy gespeichert und bearbeitet
     std::vector<Linopy> Linopy_Storage;
     for(int i = 0; i <= nScenarios; i++) {
         Linopy_Storage.push_back(Linopy(Filepath, i, nScenarios));
-    }
-
-    for(int i = 0; i <= nScenarios; i++) {
+        if(rank==0)std::cout << i << " von " << nScenarios << " Blöcken abgelesen." << std::endl;
         Linopy_Storage.at(i).Set_xvec_A(Linopy_Storage.at(0).Get_xvec_A(),Linopy_Storage.at(0).Get_xvec_A_size());
         Linopy_Storage.at(i).Transform_Matrix_Cols();
     }
+
 
     // Da PIPS mit der entgegennahme sehr strikt war und ich nichts in PIPS verändern wollte und keinem Umweg sah, ist das jetzt mit diesen globalen Variablen gelöst
     for(int i = 0; i <= nScenarios; i++) {
@@ -405,12 +408,7 @@ int main(int argc, char** argv) {
     FMAT fC = &matIneqStage1; // Matrix C, inequality Jacobian
     FMAT fD = &matIneqStage2; // Matrix D, inequality Jacobian
    
-    ProbData probData(nScenarios);
-    MPI_Init(&argc, &argv);
-    int rank;
-    int size;
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    MPI_Comm_size(MPI_COMM_WORLD, &size);
+
 
 
     //build the problem tree
@@ -457,6 +455,7 @@ int main(int argc, char** argv) {
 
     std::string Path_to_Solution = Filepath;
     Path_to_Solution += "/PrimalSolution_File.sol";
+    std::cout << "PrimalSolution = " << Path_to_Solution << std::endl;
     std::ofstream Solution;
     Solution.open(Path_to_Solution);
     for(long unsigned int i = 0; i < primalSolVec.size();i++) {
@@ -466,6 +465,7 @@ int main(int argc, char** argv) {
 
     Path_to_Solution = Filepath;
     Path_to_Solution += "/DualSolutionEq_File.sol";
+    std::cout << "DualSolution = " << Path_to_Solution << std::endl;
     Solution.open(Path_to_Solution);
     for(long unsigned int i = 0; i < dualSolEqVec.size();i++) {
          Solution << dualSolEqVec[i] << "\n";
@@ -474,6 +474,7 @@ int main(int argc, char** argv) {
 
     Path_to_Solution = Filepath;
     Path_to_Solution += "/DualSolutionIneq_File.sol";
+    std::cout << "DualSolution = " << Path_to_Solution << std::endl;
     Solution.open(Path_to_Solution);
     for(long unsigned int i = 0; i < dualSolIneqVec.size();i++) {
          Solution << dualSolIneqVec[i] << "\n";
@@ -482,6 +483,7 @@ int main(int argc, char** argv) {
 
     Path_to_Solution = Filepath;
     Path_to_Solution += "/DualSolutionVarBounds.sol";
+    std::cout << "DualVarSolution = " << Path_to_Solution << std::endl;
     Solution.open(Path_to_Solution);
     for(long unsigned int i = 0; i < dualSolVarBounds.size();i++) {
          Solution << dualSolVarBounds[i] << "\n";
