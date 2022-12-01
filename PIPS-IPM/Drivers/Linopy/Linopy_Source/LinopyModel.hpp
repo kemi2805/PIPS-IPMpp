@@ -58,6 +58,7 @@ private:
     std::unique_ptr<std::vector<double>> ixu; //Indikator ...
 
     std::unique_ptr<std::vector<long long>> xvec; // The Column numbers each block uses. A is completly in Block 0
+    std::unique_ptr<std::vector<long long>> xvec_Substractor;
     std::unique_ptr<std::vector<long long>> xvec_A; // Das xvec aber nur für A
 
 

@@ -207,6 +207,20 @@ void Linopy::GetDataForxvec(std::string name, bool linking) { //Schreib das noch
     File.close();
     Temp_Storage.push_back(Temp_Data);
     xvec = std::move(std::make_unique<std::vector<long long>>(Temp_Storage));
+    int Subtractor = 0;
+    Temp_Storage.clear();
+    for(long unsigned int i = 0; i < xvec->size(); i+=2) {
+        for(int j=i; j!=-1; j--) {
+            if(!(j%2))
+                Subtractor -= xvec->at(j);            
+            else
+                Subtractor += xvec->at(j);
+        }
+        Subtractor += i/2;
+        Temp_Storage.push_back(Subtractor);
+        Subtractor = 0;
+    }
+    xvec_Substractor = std::move(std::make_unique<std::vector<long long>>(Temp_Storage));
     return; 
 }
 
@@ -436,28 +450,74 @@ void Linopy::Transform_Matrix_Cols_A(std::vector<long long>::iterator Col_begin,
 }
 
 void Linopy::Transform_Matrix_Cols_B(std::vector<long long>::iterator Col_begin, std::vector<long long>::iterator Col_end) {
-    int counter = 0;
+    if(xvec->empty()) return;
+    long long xvec_back = xvec->back();
+    long long xvec_front = xvec->front();
+    long long xvec_size = xvec->size();
+
+    long long while_guess = 0;
+    long long while_guess_upper = xvec_size-2;
+    long long while_guess_lower = 0;
+
     for(auto line = Col_begin; line != Col_end; line++) {
-        for(auto it = xvec->begin(); it != xvec->end(); it++) {
-            it++;
-            if((*line <= *it) && (*line >= *(it-1))) {
-                for(int i = counter; i!=-1;i--) {
-                    if(!(i%2))
-                        *line -= xvec->at(i);
-                    else
-                        *line += xvec->at(i);
+        if(*line > xvec_back) // Weil wir in Python 0er dazufügen
+            *line = 0;
+        else if(*line < xvec_front)
+            *line = 0;        
+        else {
+            /*for(auto it = xvec->begin(); it != xvec->end(); it++) {
+                it++;
+                if((*line <= *it) && (*line >= *(it-1))) {
+                    *line += xvec_Substractor->at(counter);
+                    break;
                 }
-                *line += counter/2;
+                else if((*line > *it) && (*line < *(it+1))) {
+                    *line = 0;
+                    counter = 0;
+                    break;                
+                }
+                counter += 1; 
+            }*/
+            while_guess = ((double(*line)-double(xvec_front))/((xvec_back-xvec_front)))*(xvec_size-2) ;
+            if (while_guess>xvec_size || while_guess<0) {
+                std::cout << "Mit deinem Col-Transform lief wohl etewas falsch" << std::endl;
                 break;
             }
-            else if(it == xvec->end()-1) { // Weil wir in Python 0er dazufügen
-                *line = 0;
-                counter = 0;
-                break;
+            while_guess_upper = xvec_size-2;
+            while_guess_lower = 0;
+            if(while_guess%2) 
+                while_guess--;
+            while (true) {
+                if (((*line >= xvec->at(while_guess)) && (*line <= xvec->at(while_guess+1)))) {
+                    *line += xvec_Substractor->at(while_guess/2);
+                    break;
+                }
+                else if (*line < xvec->at(while_guess)) {
+                    if(*line > xvec->at(while_guess-1)) {
+                        *line = 0;
+                        break; 
+                    }
+                    else {
+                        while_guess_upper = while_guess;
+                        while_guess-= double(while_guess-while_guess_lower)/2;
+                        if(while_guess%2) while_guess--;
+                        continue;
+                    }
+                }
+                else {//(*line > xvec->at(while_guess+1)) {
+                    if(*line < xvec->at(while_guess+2)) {
+                        *line = 0;
+                        break;                
+                    }
+                    else {
+                        while_guess_lower = while_guess;
+                        while_guess+=double(while_guess_upper-while_guess)/2;
+                        if(while_guess%2) while_guess++;
+                        continue;
+                    }
+                }
             }
-            counter += 2; 
         }
-        counter = 0;
     }
 }
 
