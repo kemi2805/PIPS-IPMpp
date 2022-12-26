@@ -143,76 +143,91 @@ public: //methods
     int vecEqRhs(void*, int id, double* vec, int len) {
         for(long unsigned int i = 0; i < b.at(id)->size(); i++ ) 
             vec[i] = b.at(id)->at(i);
+        b.at(id).reset();
         return 0;
     }
     int vecEqRhsLink(void*, int id, double* vec, int len) {
         for(long unsigned int i = 0; i < bl.at(id)->size(); i++ ) 
             vec[i] = bl.at(0)->at(i);
+        bl.at(id).reset();
         return 0;
     }
     int vecIneqRhs(void*, int id, double* vec, int len) {
         for(long unsigned int i = 0; i < du.at(id)->size(); i++ ) 
-            vec[i] = du.at(id)->at(i);        
+            vec[i] = du.at(id)->at(i);   
+        du.at(id).reset();     
         return 0;
     }
     int vecIneqRhsActive(void*, int id, double* vec, int len) {
         for(long unsigned int i = 0; i < idu.at(id)->size(); i++ ) 
-            vec[i] = idu.at(id)->at(i);           
+            vec[i] = idu.at(id)->at(i);         
+        idu.at(id).reset();  
         return 0;
     }
     int vecIneqLhs(void*, int id, double* vec, int len) {
         for(long unsigned int i = 0; i < dl.at(id)->size(); i++ ) 
             vec[i] = dl.at(id)->at(i);   
+        dl.at(id).reset();
         return 0;
     }
     int vecIneqLhsActive(void*, int id, double* vec, int len) {
         for(long unsigned int i = 0; i < idl.at(id)->size(); i++ ) 
             vec[i] = idl.at(id)->at(i);   
+        idl.at(id).reset();
         return 0;
     }
     int vecIneqRhsLink(void*, int id, double* vec, int len) {
         for(long unsigned int i = 0; i < dlu.at(id)->size(); i++ ) 
             vec[i] = dlu.at(0)->at(i);   
+        dlu.at(0).reset();
         return 0;
     }
     int vecIneqRhsLinkActive(void*, int id, double* vec, int len) {
         for(long unsigned int i = 0; i < idlu.at(id)->size(); i++ ) 
-            vec[i] = idlu.at(0)->at(i);           
+            vec[i] = idlu.at(0)->at(i);  
+        idlu.at(0).reset();         
         return 0;
     }
     int vecIneqLhsLink(void*, int id, double* vec, int len) {
         for(long unsigned int i = 0; i < dll.at(id)->size(); i++ ) 
             vec[i] = dll.at(0)->at(i);
+        dll.at(0).reset();
         return 0;
     }
     int vecIneqLhsLinkActive(void*, int id, double* vec, int len) {
         for(long unsigned int i = 0; i < idll.at(id)->size(); i++ ) 
-            vec[i] = idll.at(0)->at(i);   
+            vec[i] = idll.at(0)->at(i);  
+        idll.at(0).reset(); 
         return 0;
     }
     int vecObj(void*, int id, double* vec, int len) {
         for(long unsigned int i = 0; i < c.at(id)->size(); i++ ) 
             vec[i] = c.at(id)->at(i);   
+        c.at(id).reset();
         return 0;
     }
     int vecXlb(void*, int id, double* vec, int len) {
         for(long unsigned int i = 0; i < xl.at(id)->size(); i++ ) 
-            vec[i] = xl.at(id)->at(i);   
+            vec[i] = xl.at(id)->at(i);  
+        xl.at(id).reset(); 
         return 0;
     }
     int vecXub(void*, int id, double* vec, int len) {
         for(long unsigned int i = 0; i < xu.at(id)->size(); i++ ) 
             vec[i] = xu.at(id)->at(i);   
+        xu.at(id).reset();
         return 0;
     }
     int vecXlbActive(void*, int id, double* vec, int len) {
         for(long unsigned int i = 0; i < ixl.at(id)->size(); i++ ) 
             vec[i] = ixl.at(id)->at(i);   
+        ixl.at(id).reset(); 
         return 0;
     }
     int vecXubActive(void*, int id, double* vec, int len) {
         for(long unsigned int i = 0; i < ixu.at(id)->size(); i++ ) 
-            vec[i] = ixu.at(id)->at(i);   
+            vec[i] = ixu.at(id)->at(i);  
+        ixu.at(id).reset();  
         return 0;
     }
     int matAllZero(void*, int, int* krowM, int* , double*) {
@@ -228,6 +243,9 @@ public: //methods
             jcolM[i] = A_col.at(id)->at(i);
             M[i] = A_data.at(id)->at(i);
         }
+        A_row.at(id).reset();
+        A_col.at(id).reset();
+        A_data.at(id).reset();
         return 0;
     }
     int matIneqLink(void*, int id, int* krowM, int* jcolM, double* M) {
@@ -237,6 +255,9 @@ public: //methods
             jcolM[i] = DL_col.at(id)->at(i);
             M[i] = DL_data.at(id)->at(i);
         }
+        DL_row.at(id).reset();
+        DL_col.at(id).reset();
+        DL_data.at(id).reset();
         return 0;
     }
     int matIneqStage1(void*, int id, int* krowM, int* jcolM, double* M) {
@@ -247,6 +268,9 @@ public: //methods
             jcolM[i] = C_col.at(id)->at(i);
             M[i] = C_data.at(id)->at(i);
         }
+        C_row.at(id).reset();
+        C_col.at(id).reset();
+        C_data.at(id).reset();
         return 0;
     }
     int matEqStage2(void*, int id, int* krowM, int* jcolM, double* M) {
@@ -256,6 +280,9 @@ public: //methods
             jcolM[i] = B_col.at(id)->at(i);
             M[i] = B_data.at(id)->at(i);
         }
+        B_row.at(id).reset();
+        B_col.at(id).reset();
+        B_data.at(id).reset();
         return 0;
     }
     int matIneqStage2(void*, int id, int* krowM, int* jcolM, double* M) {
@@ -265,6 +292,9 @@ public: //methods
             jcolM[i] = D_col.at(id)->at(i);
             M[i] = D_data.at(id)->at(i);
         }
+        D_row.at(id).reset();
+        D_col.at(id).reset();
+        D_data.at(id).reset();
         return 0;
     }
     int matEqLink(void*, int id, int* krowM, int* jcolM, double* M) {
@@ -274,15 +304,16 @@ public: //methods
             jcolM[i] = BL_col.at(id)->at(i);
             M[i] = BL_data.at(id)->at(i);
         }
+        BL_row.at(id).reset();
+        BL_col.at(id).reset();
+        BL_data.at(id).reset();
         return 0;
     }
 
 
 int main(int argc, char** argv) {
-   
-    // This is for the Parallel Processor
-    
-   
+    MPI_Init(&argc, &argv);
+
     // This has to be the same number as the number of Blocks you put in Linopy.
     // Linopy gives an extra block out. Substract 1 from it.
     std::string nScenariostring = argv[1];
@@ -290,11 +321,13 @@ int main(int argc, char** argv) {
     std::string Filepath = argv[2];
 
     ProbData probData(nScenarios);
-    MPI_Init(&argc, &argv);
     int rank;
     int size;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
+
+    if (rank==0)    
+        std::cout << "Linopy_Callback started" << std::endl;
     // Hier werden alle Blöcke abgelesen und in Linopy_Storage mit der Klasse Linopy gespeichert und bearbeitet
     std::vector<Linopy> Linopy_Storage;
     for(int i = 0; i <= nScenarios; i++) {
