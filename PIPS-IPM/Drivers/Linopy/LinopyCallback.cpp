@@ -110,14 +110,13 @@ int main(int argc, char** argv) {
     if (rank == 0)
         std::cout << "solving...\n";
 
-    const TerminationStatus status = pipsIpm.run();
+    pipsIpm.run();
 
     
     if (rank == 0) {
         const double objective = pipsIpm.getObjective();
         std::cout << "solving finished ... objective value: " << objective << "\n";
-        if (status == TerminationStatus::SUCCESSFUL_TERMINATION)
-            reader.write_solution(pipsIpm, Filepath);
+        reader.write_solution(pipsIpm, Filepath);
     }
     MPI_Finalize();
     
